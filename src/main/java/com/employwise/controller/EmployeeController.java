@@ -23,7 +23,7 @@ import com.employwise.util.EmployeeResponse;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/api/v1")
 public class EmployeeController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class EmployeeController {
     private EmailService emailService;
 
     // add employee
-    @PostMapping("/")
+    @PostMapping("/employees")
     public String addEmployee(@Valid @RequestBody Employee employee){
         
         Employee emp = this.employeeService.addEmployee(employee);
@@ -47,14 +47,14 @@ public class EmployeeController {
     }
 
     // update employee
-    @PutMapping("/{employeeId}")
+    @PutMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> updateCategory(@Valid @RequestBody Employee employee, @PathVariable String employeeId){
         Employee emp = this.employeeService.updatEmployee(employee, employeeId);
         return ResponseEntity.ok(emp);
     }    
 
     // delete employee
-    @DeleteMapping("/{employeeId}")
+    @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<APIResponse> deleteCategory(@PathVariable String employeeId){
         this.employeeService.deleteEmployee(employeeId);
         return new ResponseEntity<>(new APIResponse("Employee deleted!", true), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class EmployeeController {
     }
 
     //get all employee
-    @GetMapping("/")
+    @GetMapping("/employees/")
     public ResponseEntity<EmployeeResponse> getAllEmployees(
         @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
         @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
@@ -73,20 +73,19 @@ public class EmployeeController {
     }
 
     //get employee by id
-    @GetMapping("/{employeeId}")
+    @GetMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable String employeeId){
         return ResponseEntity.ok(this.employeeService.getEmployeeById(employeeId));
     }
 
-    @GetMapping("/manager/{employeeId}/{level}")
+    @GetMapping("/employees/manager/{employeeId}/{level}")
     public ResponseEntity<Employee> getNthLevelManager(
             @PathVariable String employeeId,
             @PathVariable int level
     ) {
-        // Perform logic to retrieve the nth level manager (simulated by printing for demonstration)
+        
         Employee manager = this.employeeService.getNthLevelManagerUtil(employeeId, level);
 
-        // Return the manager ID
         return ResponseEntity.ok(manager);
 
     }

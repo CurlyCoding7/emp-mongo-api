@@ -1,5 +1,3 @@
-# emp-mongo-api
-
 How to run the project:
 
 Step1. Open applicatio.properties file and add these details:
@@ -72,4 +70,3 @@ Body:
  }
  
  
-
